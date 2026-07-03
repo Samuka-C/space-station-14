@@ -33,8 +33,7 @@ public abstract partial class SharedMoverController
 
     protected virtual void OnInputMoverCanMoveUpdated(Entity<InputMoverComponent> ent, ref CanMoveUpdatedEvent args)
     {
-        if (!args.CanMove)
-            SetMoveInput(ent, MoveButtons.None);
+        
     }
 
     /// <summary>
