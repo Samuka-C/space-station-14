@@ -158,8 +158,8 @@ public sealed partial class GunSystem
         }
     }
 
-    /// TextureRect but rotates the texture 90 degrees clockwise
-    private sealed class RotatedTexture : TextureRect
+    /// TextureRect but rotates the texture 90 degrees clockwise and also flipped vertically (after the rotation)
+    private sealed class RotatedFlippedTextureRect : TextureRect
     {
         protected override Vector2 MeasureOverride(Vector2 availableSize)
         {
@@ -169,9 +169,9 @@ public sealed partial class GunSystem
 
         protected override void Draw(DrawingHandleScreen handle)
         {
-            var position = GlobalPosition + new Vector2(TextureSizeTarget.Y, 0);
+            var position = GlobalPosition + new Vector2(TextureSizeTarget.Y, TextureSizeTarget.X);
             var orientation = new Angle(MathF.PI * 0.5f);
-            handle.SetTransform(position * UIScale, orientation, Vector2.One);
+            handle.SetTransform(position * UIScale, orientation, new Vector2(-1, 1));
             base.Draw(handle);
             handle.SetTransform(Matrix3x2.Identity);
         }
@@ -207,10 +207,10 @@ public sealed partial class GunSystem
                         VerticalAlignment = VAlignment.Center,
                     }
                     ),
-                    (_chamberedBullet = new RotatedTexture
+                    (_chamberedBullet = new RotatedFlippedTextureRect
                     {
                         Texture = spentTexture,
-                        Margin = new Thickness(5, 0, 0, 0),
+                        Margin = new Thickness(2, 0, 0, 0),
                         HorizontalAlignment = HAlignment.Left,
                         VerticalAlignment = VAlignment.Center,
                     }),
