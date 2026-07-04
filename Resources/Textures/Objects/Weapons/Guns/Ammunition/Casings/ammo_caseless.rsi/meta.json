@@ -5,7 +5,7 @@
         "y": 32
     },
     "license": "CC-BY-SA-3.0",
-    "copyright": "Made by Samuka-C modified from ammo_casing.rsi",
+    "copyright": "Made by Samuka-C (github) modified from ammo_casing.rsi",
     "states": [
         {
             "name": "base"
