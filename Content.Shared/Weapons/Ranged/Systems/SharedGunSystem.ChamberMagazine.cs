@@ -71,6 +71,9 @@ public abstract partial class SharedGunSystem
             ToggleBolt(uid, component, args.User);
     }
 
+    /// <summary>
+    /// Called when a entity is loaded into a slot in a gun
+    /// </summary>
     private void OnChamberMagazineSlotChange(EntityUid uid, ChamberMagazineAmmoProviderComponent component, ContainerModifiedMessage args)
     {
         GetMagazineEntity(uid);
@@ -88,6 +91,9 @@ public abstract partial class SharedGunSystem
         }
     }
 
+    /// <summary>
+    /// Called when a entity is loaded into the chamber of a gun
+    /// </summary>
     private void ChamberSlotChanged(Entity<ChamberMagazineAmmoProviderComponent> ent)
     {
         UpdateAmmoCount(ent);
