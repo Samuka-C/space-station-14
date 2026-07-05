@@ -1,3 +1,4 @@
+using Content.Shared.Actions;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Overlays;
@@ -10,29 +11,62 @@ namespace Content.Shared.NightVision;
 /// </summary>
 public abstract partial class SharedNightVisionSystem : EntitySystem
 {
+    [Dependency] private SharedActionsSystem _actions = default!;
+
     [SubscribeLocalEvent]
     private void OnStartup(Entity<NightVisionComponent> ent, ref ComponentStartup args)
     {
+        if (ent.Comp.RelayOverlay)
+            return;
+
         RefreshOverlay(ent);
+
+        if (ent.Comp.Action is null)
+            return;
+
+        ent.Comp.ActionEntity = _actions.AddAction(ent, ent.Comp.Action);
     }
 
     [SubscribeLocalEvent]
     private void OnRemove(Entity<NightVisionComponent> ent, ref ComponentRemove args)
     {
+        if (ent.Comp.RelayOverlay)
+            return;
+
         RefreshOverlay(ent);
+
+        if (ent.Comp.Action is null)
+            return;
+
+        _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
     [SubscribeLocalEvent]
     private void OnCompEquip(Entity<NightVisionComponent> ent, ref GotEquippedEvent args)
     {
-        if (ent.Comp.RelayOverlay)
-            RefreshOverlay(args.EquipTarget);
+        if (!ent.Comp.RelayOverlay)
+            return;
+
+        RefreshOverlay(args.EquipTarget);
+
+        if (ent.Comp.Action is null)
+            return;
+
+        ent.Comp.ActionEntity = _actions.AddAction(args.EquipTarget, ent.Comp.Action);
     }
 
     [SubscribeLocalEvent]
     private void OnCompUnequip(Entity<NightVisionComponent> ent, ref GotUnequippedEvent args)
     {
+        if (!ent.Comp.RelayOverlay)
+            return;
+
         RefreshOverlay(args.EquipTarget);
+
+        if (ent.Comp.Action is null)
+            return;
+
+        _actions.RemoveAction(args.EquipTarget, ent.Comp.ActionEntity);
     }
 
     [SubscribeLocalEvent]
