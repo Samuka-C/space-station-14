@@ -50,6 +50,12 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
         args.Components.Add(ent.Comp);
     }
 
+    [SubscribeLocalEvent]
+    private void OnToggleNightVisionEvent(Entity<NightVisionComponent> ent, ref ToggleNightVisionEvent args)
+    {
+        SetEnabled(ent.Owner, !ent.Comp.Enabled);
+    }
+
     /// <summary>
     /// Enables or disables the component.
     /// </summary>

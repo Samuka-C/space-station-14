@@ -1,3 +1,4 @@
+using Content.Shared.Actions;
 using Content.Shared.Inventory;
 using Robust.Shared.GameStates;
 
@@ -55,3 +56,5 @@ public sealed partial class NightVisionComponent : Component
     [DataField, AutoNetworkedField]
     public float NoiseMultiplier;
 }
+
+public sealed partial class ToggleNightVisionEvent : InstantActionEvent;
