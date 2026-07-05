@@ -31,11 +31,18 @@ public sealed partial class NightVisionComponent : Component
     public bool RelayOverlay;
 
     /// <summary>
+    /// The entity with the overlay
+    /// </summary>
+    /// <remarks>Normally itself unless <see cref="RelayOverlay"/> is true</remarks>
+    [DataField, AutoNetworkedField]
+    public EntityUid EntityWithOverlay;
+
+    /// <summary>
     /// The action proto that toggles the night vision.
     /// </summary>
     /// <remarks>
     /// if null, no action is added.
-    /// if RelayOverlay is true. it adds the action to the entity wearing this.
+    /// if <see cref="RelayOverlay"/> is true. it adds the action to the entity wearing this.
     /// otherwise it adds the action to itself
     /// </remarks>
     [DataField]
