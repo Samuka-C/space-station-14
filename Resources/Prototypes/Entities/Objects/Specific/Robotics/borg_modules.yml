@@ -1751,6 +1751,9 @@
     - type: NightVision
       action: ActionXenoborgToggleNightVision
       lightingColor: "#9180FF26"
+      overlayColor: "#9180FF26"
+      noiseAmount: 10
+      noiseMultiplier: 10
   - type: Sprite
     layers:
     - state: xenoborg_stealth
