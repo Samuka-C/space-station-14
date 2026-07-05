@@ -20,6 +20,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
+        ent.Comp.EntityWithOverlay = ent;
 
         if (ent.Comp.Action is null)
             return;
@@ -34,6 +35,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
+        ent.Comp.EntityWithOverlay = ent;
 
         if (ent.Comp.Action is null)
             return;
@@ -48,11 +50,12 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
+        ent.Comp.EntityWithOverlay = args.EquipTarget;
 
         if (ent.Comp.Action is null)
             return;
 
-        ent.Comp.ActionEntity = _actions.AddAction(args.EquipTarget, ent.Comp.Action);
+        ent.Comp.ActionEntity = _actions.AddAction(args.EquipTarget, ent.Comp.Action, ent);
     }
 
     [SubscribeLocalEvent]
@@ -62,6 +65,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
+        ent.Comp.EntityWithOverlay = args.EquipTarget;
 
         if (ent.Comp.Action is null)
             return;
@@ -85,9 +89,14 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
     }
 
     [SubscribeLocalEvent]
-    private void OnToggleNightVisionEvent(Entity<NightVisionComponent> ent, ref ToggleNightVisionEvent args)
+    private void OnToggleNightVisionEvent(ToggleNightVisionEvent args)
     {
-        SetEnabled(ent.Owner, !ent.Comp.Enabled);
+        var ent = args.Action.Comp.Container;
+
+        if (!TryComp<NightVisionComponent>(ent, out var nightVisionComp))
+            return;
+
+        SetEnabled(ent.Value, !nightVisionComp.Enabled);
     }
 
     /// <summary>
@@ -103,8 +112,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 
         ent.Comp.Enabled = enabled;
         Dirty(ent);
-
-        RefreshOverlay(ent);
+        RefreshOverlay(ent.Comp.EntityWithOverlay);
     }
 
     protected virtual void RefreshOverlay(EntityUid entity) { }
