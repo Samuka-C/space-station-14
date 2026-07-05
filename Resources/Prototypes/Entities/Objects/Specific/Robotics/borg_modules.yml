@@ -1741,7 +1741,7 @@
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: xenoborg-eye2-module }
 
 - type: entity
-  parent: [ BaseXenoborgModuleScout, BaseXenoborgContraband ]
+  parent: [ BaseXenoborgModuleStealth, BaseXenoborgContraband ]
   id: XenoborgModuleNightVision
   name: xenoborg night vision module
   description: Module that allows a xenoborg see in the dark.
