@@ -20,7 +20,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
-        ent.Comp.EntityWithOverlay = ent;
 
         if (ent.Comp.Action is null)
             return;
@@ -35,7 +34,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
-        ent.Comp.EntityWithOverlay = ent;
 
         if (ent.Comp.Action is null)
             return;
@@ -50,7 +48,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
-        ent.Comp.EntityWithOverlay = args.EquipTarget;
+        ent.Comp.Viewer = args.EquipTarget;
 
         if (ent.Comp.Action is null)
             return;
@@ -65,7 +63,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
-        ent.Comp.EntityWithOverlay = args.EquipTarget;
+        ent.Comp.Viewer = null;
 
         if (ent.Comp.Action is null)
             return;
@@ -112,7 +110,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 
         ent.Comp.Enabled = enabled;
         Dirty(ent);
-        RefreshOverlay(ent.Comp.EntityWithOverlay);
+        RefreshOverlay(ent.Comp.Viewer ?? ent);
     }
 
     protected virtual void RefreshOverlay(EntityUid entity) { }
