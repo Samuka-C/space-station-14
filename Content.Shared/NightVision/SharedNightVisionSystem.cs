@@ -64,11 +64,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 
         RefreshOverlay(args.EquipTarget);
         ent.Comp.Viewer = null;
-
-        if (ent.Comp.Action is null)
-            return;
-
-        _actions.RemoveAction(args.EquipTarget, ent.Comp.ActionEntity);
     }
 
     [SubscribeLocalEvent]
