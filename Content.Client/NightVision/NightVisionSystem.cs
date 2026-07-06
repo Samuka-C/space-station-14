@@ -26,9 +26,6 @@ public sealed partial class NightVisionSystem : SharedNightVisionSystem
     [SubscribeLocalEvent]
     private void OnPlayerAttached(LocalPlayerAttachedEvent args)
     {
-        if (TryComp<NightVisionComponent>(args.Entity, out var comp) && comp.RelayOverlay)
-            return;
-
         RefreshOverlay(args.Entity);
     }
 
@@ -44,7 +41,7 @@ public sealed partial class NightVisionSystem : SharedNightVisionSystem
         RefreshOverlay(ent);
     }
 
-    [SubscribeLocalEvent]
+    [SubscribeNetworkEvent]
     private void OnRoundRestart(RoundRestartCleanupEvent args)
     {
         var localPlayer = _player.LocalSession?.AttachedEntity;

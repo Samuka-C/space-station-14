@@ -20,7 +20,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
-        ent.Comp.ActionEntity = _actions.AddAction(ent, ent.Comp.Action);
+        _actions.AddAction(ent, ref ent.Comp.ActionEntity, ent.Comp.Action);
     }
 
     [SubscribeLocalEvent]
@@ -40,8 +40,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
-        ent.Comp.Viewer = args.EquipTarget;
-        ent.Comp.ActionEntity = _actions.AddAction(args.EquipTarget, ent.Comp.Action, ent);
+        _actions.AddAction(args.EquipTarget, ref ent.Comp.ActionEntity, ent.Comp.Action, ent);
     }
 
     [SubscribeLocalEvent]
@@ -51,7 +50,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
-        ent.Comp.Viewer = null;
     }
 
     [SubscribeLocalEvent]
@@ -77,14 +75,17 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
         if (!TryComp<NightVisionComponent>(ent, out var nightVisionComp))
             return;
 
-        SetEnabled(ent.Value, !nightVisionComp.Enabled);
+        SetEnabled(ent.Value, !nightVisionComp.Enabled, args.Performer);
         args.Handled = true;
     }
 
     /// <summary>
     /// Enables or disables the component.
     /// </summary>
-    public void SetEnabled(Entity<NightVisionComponent?> ent, bool enabled)
+    /// <param name="ent">The night vision to toggle.</param>
+    /// <param name="enabled">Whether to enable or disable.</param>
+    /// <param name="viewer">Viewer of the night vision, used to refresh their overlay. If null, assumes the night vision entity is the viewer.</param>
+    public void SetEnabled(Entity<NightVisionComponent?> ent, bool enabled, EntityUid? viewer = null)
     {
         if (!Resolve(ent, ref ent.Comp, false))
             return;
@@ -94,7 +95,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 
         ent.Comp.Enabled = enabled;
         Dirty(ent);
-        RefreshOverlay(ent.Comp.Viewer ?? ent);
+        RefreshOverlay(viewer ?? ent);
     }
 
     protected virtual void RefreshOverlay(EntityUid entity) { }

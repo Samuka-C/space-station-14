@@ -31,15 +31,6 @@ public sealed partial class NightVisionComponent : Component
     public bool RelayOverlay;
 
     /// <summary>
-    /// Reference to the entity that is seeing the overlay
-    /// </summary>
-    /// <remarks>
-    /// Normally null unless this entity is equipped.
-    /// </remarks>
-    [DataField, AutoNetworkedField]
-    public EntityUid? Viewer;
-
-    /// <summary>
     /// The action proto that toggles the night vision.
     /// </summary>
     /// <remarks>
