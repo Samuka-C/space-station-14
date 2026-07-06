@@ -66,7 +66,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
         if (!ent.Comp.Enabled)
             return;
 
-        args.Components.Add(ent.Comp);
+        args.Entities.Add(ent);
     }
 
     [SubscribeLocalEvent]
@@ -104,5 +104,5 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 public record struct RefreshNightVisionEvent() : IInventoryRelayEvent
 {
     public SlotFlags TargetSlots => SlotFlags.WITHOUT_POCKET;
-    public List<NightVisionComponent> Components = new();
+    public List<Entity<NightVisionComponent>> Entities = new();
 }

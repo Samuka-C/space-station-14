@@ -52,7 +52,7 @@ public sealed partial class NightVisionSystem : SharedNightVisionSystem
             Deactivate(localPlayer.Value);
     }
 
-    private void Update(EntityUid entity, List<NightVisionComponent> components)
+    private void Update(EntityUid entity, List<Entity<NightVisionComponent>> entities)
     {
         if (entity != _player.LocalSession?.AttachedEntity)
             return;
@@ -60,21 +60,24 @@ public sealed partial class NightVisionSystem : SharedNightVisionSystem
         // Find the component with the lowest noise.
         NightVisionComponent? nvision = null;
         var bestNoise = float.MaxValue;
-        foreach (var comp in components)
+        foreach (var ent in entities)
         {
-            if (!comp.Enabled)
+            if (!ent.Comp.Enabled)
                 continue;
 
-            if (comp.Prioritized)
+            if (ent.Comp.RelayOverlay == (ent.Owner == entity))
+                continue;
+
+            if (ent.Comp.Prioritized)
             {
-                nvision = comp;
+                nvision = ent.Comp;
                 break;
             }
 
-            var noise = comp.NoiseAmount * comp.NoiseMultiplier;
+            var noise = ent.Comp.NoiseAmount * ent.Comp.NoiseMultiplier;
             if (noise < bestNoise)
             {
-                nvision = comp;
+                nvision = ent.Comp;
                 bestNoise = noise;
             }
         }
@@ -108,8 +111,8 @@ public sealed partial class NightVisionSystem : SharedNightVisionSystem
         var ev = new RefreshNightVisionEvent();
         RaiseLocalEvent(target, ref ev);
 
-        if (ev.Components.Count > 0)
-            Update(target, ev.Components);
+        if (ev.Entities.Count > 0)
+            Update(target, ev.Entities);
         else
             Deactivate(target);
     }
