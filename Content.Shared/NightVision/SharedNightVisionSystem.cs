@@ -95,6 +95,7 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         SetEnabled(ent.Value, !nightVisionComp.Enabled);
+        args.Handled = true;
     }
 
     /// <summary>
