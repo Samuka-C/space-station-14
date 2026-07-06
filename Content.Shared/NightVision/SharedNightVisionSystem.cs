@@ -20,10 +20,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
-
-        if (ent.Comp.Action is null)
-            return;
-
         ent.Comp.ActionEntity = _actions.AddAction(ent, ent.Comp.Action);
     }
 
@@ -34,10 +30,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(ent);
-
-        if (ent.Comp.Action is null)
-            return;
-
         _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
@@ -49,10 +41,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 
         RefreshOverlay(args.EquipTarget);
         ent.Comp.Viewer = args.EquipTarget;
-
-        if (ent.Comp.Action is null)
-            return;
-
         ent.Comp.ActionEntity = _actions.AddAction(args.EquipTarget, ent.Comp.Action, ent);
     }
 
