@@ -50,12 +50,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
             return;
 
         RefreshOverlay(args.EquipTarget);
-        ent.Comp.EntityWithOverlay = args.EquipTarget;
-
-        if (ent.Comp.Action is null)
-            return;
-
-        _actions.RemoveAction(args.EquipTarget, ent.Comp.ActionEntity);
     }
 
     [SubscribeLocalEvent]
@@ -83,17 +77,6 @@ public abstract partial class SharedNightVisionSystem : EntitySystem
 
         SetEnabled(ent.Value, !nightVisionComp.Enabled, args.Performer);
         args.Handled = true;
-    }
-
-    [SubscribeLocalEvent]
-    private void OnToggleNightVisionEvent(ToggleNightVisionEvent args)
-    {
-        var ent = args.Action.Comp.Container;
-
-        if (!TryComp<NightVisionComponent>(ent, out var nightVisionComp))
-            return;
-
-        SetEnabled(ent.Value, !nightVisionComp.Enabled);
     }
 
     /// <summary>
