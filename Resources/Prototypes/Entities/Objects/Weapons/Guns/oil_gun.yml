@@ -28,7 +28,9 @@
           False: {visible: true}
   - type: Item
     size: Large
-  # - type: CustomSpriteAmmoCounter
+  - type: CustomSpriteAmmoCounter
+    loadedAmmoSprite: Interface/ItemStatus/XenoborgOilAmpoule/not_spent.png
+    spentAmmoSprite: Interface/ItemStatus/XenoborgOilAmpoule/spent.png
   - type: AmmoCounter
   - type: Gun
     fireRate: 5
