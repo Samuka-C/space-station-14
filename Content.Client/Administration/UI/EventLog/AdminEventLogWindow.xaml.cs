@@ -64,7 +64,7 @@ public sealed partial class AdminEventLogWindow : FancyWindow
 
     public ProtoId<EventCategoryPrototype>? EventCategory;
 
-    public void SetAllowNoneCategory(bool value)
+    public void SetAllowNoCategory(bool value)
     {
         if (AllowNoCategory == value)
             return;

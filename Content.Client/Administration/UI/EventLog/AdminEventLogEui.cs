@@ -41,7 +41,7 @@ public sealed partial class AdminEventLogEui : BaseEui
 
         EventLogWindow.SetCurrentRound(s.RoundId);
         EventLogWindow.SetRoundSpinBox(s.RoundId);
-        EventLogWindow.SetAllowNoneCategory(s.AllowNoneCategory);
+        EventLogWindow.SetAllowNoCategory(s.AllowNoneCategory);
     }
 
     private void OnSendEventLogPressed(ButtonEventArgs args)
