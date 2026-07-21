@@ -28,17 +28,28 @@ public sealed partial class AdminEventLogWindow : FancyWindow
         CategoryOption.AddItem(_localization.GetString("admin-event-category-none"), -1);
 
         var eventCategories = _protoMan.EnumeratePrototypes<EventCategoryPrototype>()
-            .ToList()
-            .OrderBy(proto => proto.Title);
-        var index = 0;
-        foreach (var eventCategory in eventCategories)
-        {
-            CategoryOption.AddItem(_localization.GetString(eventCategory.Title), index);
-            CategoryOption.SetItemMetadata(index, eventCategory.ID);
-            index++;
-        }
+            .OrderBy(proto => proto.Title)
+            .ToList();
 
-        CategoryOption.OnItemSelected += EventCategorySelected;
+        if (eventCategories.Count == 0)
+        {
+            ThereAreCategories = false;
+            CategoryOption.Visible = false;
+            CategoryLabel.Visible = false;
+        }
+        else
+        {
+            ThereAreCategories = true;
+            var index = 0;
+            foreach (var eventCategory in eventCategories)
+            {
+                CategoryOption.AddItem(_localization.GetString(eventCategory.Title), index);
+                CategoryOption.SetItemMetadata(index, eventCategory.ID);
+                index++;
+            }
+
+            CategoryOption.OnItemSelected += EventCategorySelected;
+        }
 
         EventTextEdit.Placeholder = new Rope.Leaf(_localization.GetString("admin-event-description-placeholder"));
         EventTextEdit.OnTextChanged += EventTextChanged;
@@ -48,16 +59,17 @@ public sealed partial class AdminEventLogWindow : FancyWindow
     }
 
     private int CurrentRound { get; set; }
-    private bool AllowNoneCategory { get; set; }
+    private bool AllowNoCategory { get; set; }
+    private bool ThereAreCategories { get; set; }
 
     public ProtoId<EventCategoryPrototype>? EventCategory;
 
     public void SetAllowNoneCategory(bool value)
     {
-        if (AllowNoneCategory == value)
+        if (AllowNoCategory == value)
             return;
 
-        AllowNoneCategory = value;
+        AllowNoCategory = value;
         UpdateCategoryOption();
         UpdateSendButton();
     }
@@ -110,7 +122,7 @@ public sealed partial class AdminEventLogWindow : FancyWindow
 
     private void UpdateCategoryOption()
     {
-        CategoryOption.SetItemDisabled(-1, !AllowNoneCategory);
+        CategoryOption.SetItemDisabled(-1, !AllowNoCategory);
     }
 
     private void UpdateSendButton()
@@ -119,6 +131,6 @@ public sealed partial class AdminEventLogWindow : FancyWindow
 
         SendEventLog.Disabled =
             string.IsNullOrEmpty(eventText) ||
-            !AllowNoneCategory && CategoryOption.SelectedId == -1;
+            ThereAreCategories && !AllowNoCategory && CategoryOption.SelectedId == -1;
     }
 }
