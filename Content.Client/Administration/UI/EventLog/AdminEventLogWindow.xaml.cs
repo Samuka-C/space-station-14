@@ -87,6 +87,9 @@ public sealed partial class AdminEventLogWindow : FancyWindow
             : new ProtoId<EventCategoryPrototype>((string)args.Button.GetItemMetadata(args.Id)!);
 
         CategoryOption.SelectId(args.Id);
+        CategoryOption.ToolTip = EventCategory != null
+            ? _localization.GetString(_protoMan.Index<EventCategoryPrototype>(EventCategory).Description)
+            : null;
         UpdateSendButton();
     }
 
