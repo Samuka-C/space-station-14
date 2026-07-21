@@ -33,7 +33,6 @@ public sealed partial class AdminEventLogWindow : FancyWindow
 
         if (eventCategories.Count == 0)
         {
-            ThereAreCategories = false;
             CategoryOption.Visible = false;
             CategoryLabel.Visible = false;
         }
