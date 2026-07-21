@@ -27,7 +27,9 @@ public sealed partial class AdminEventLogWindow : FancyWindow
 
         CategoryOption.AddItem(_localization.GetString("admin-event-category-none"), -1);
 
-        var eventCategories = _protoMan.EnumeratePrototypes<EventCategoryPrototype>().ToList();
+        var eventCategories = _protoMan.EnumeratePrototypes<EventCategoryPrototype>()
+            .ToList()
+            .OrderBy(proto => proto.Title);
         var index = 0;
         foreach (var eventCategory in eventCategories)
         {
