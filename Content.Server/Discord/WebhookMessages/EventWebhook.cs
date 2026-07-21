@@ -15,7 +15,7 @@ public sealed partial class EventWebhook : IPostInjectInit
         _sawmill = Logger.GetSawmill(SawmillDiscordName);
     }
 
-    public void TrySendMessage(string adminUsername, int roundId, string eventDescription, string? webhookUrl = null)
+    public void TrySendMessage(string adminUsername, int roundId, string eventDescription, LocId? categoryTitle, string? webhookUrl = null)
     {
         if (string.IsNullOrEmpty(webhookUrl))
             return;
@@ -24,7 +24,9 @@ public sealed partial class EventWebhook : IPostInjectInit
 
         var payload = new WebhookPayload()
         {
-            Username = Loc.GetString("event-log-webhook-title"),
+            Username = categoryTitle == null
+                ? Loc.GetString("event-log-webhook-title")
+                : Loc.GetString("event-log-webhook-title-with-category", ("category", Loc.GetString(categoryTitle))),
             Embeds = new List<WebhookEmbed>()
             {
                 new()
