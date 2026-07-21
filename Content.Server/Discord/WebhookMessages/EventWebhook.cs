@@ -24,9 +24,7 @@ public sealed partial class EventWebhook : IPostInjectInit
 
         var payload = new WebhookPayload()
         {
-            Username = categoryTitle == null
-                ? Loc.GetString("event-log-webhook-title")
-                : Loc.GetString("event-log-webhook-title-with-category", ("category", Loc.GetString(categoryTitle))),
+            Username = Loc.GetString("event-log-webhook-title"),
             Embeds = new List<WebhookEmbed>()
             {
                 new()
@@ -34,7 +32,9 @@ public sealed partial class EventWebhook : IPostInjectInit
                     Title = adminUsername,
                     // Gotta remove the alpha channel so discord doesn't freak out
                     Color = Color.DarkViolet.ToArgb() & 0x00FFFFFF, //#9400D3
-                    Description = eventDescription,
+                    Description = categoryTitle == null
+                        ? eventDescription
+                        : Loc.GetString("event-log-webhook-text-with-category", ("category", Loc.GetString(categoryTitle)), ("text", eventDescription)),
                     Footer = new WebhookEmbedFooter()
                     {
                         Text = Loc.GetString(
