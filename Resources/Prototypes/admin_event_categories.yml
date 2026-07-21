@@ -11,7 +11,7 @@
 - type: eventCategory
   id: t3
   title: admin-event-category-T3-title
-  description: admin-event-category-T4-description
+  description: admin-event-category-T3-description
 
 - type: eventCategory
   id: t4
