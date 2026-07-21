@@ -60,7 +60,7 @@ public sealed partial class AdminEventLogWindow : FancyWindow
 
     private int CurrentRound { get; set; }
     private bool AllowNoCategory { get; set; }
-    private bool ThereAreCategories { get; set; }
+    private bool ThereAreCategories { get; }
 
     public ProtoId<EventCategoryPrototype>? EventCategory;
 
