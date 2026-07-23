@@ -209,5 +209,5 @@ public sealed partial class CCVars
     /// Whether admins can log events with no category
     /// </summary>
     public static readonly CVarDef<bool> AdminEventAllowNoneCategory =
-        CVarDef.Create("admin.event_log.allow_none_category", false, CVar.SERVERONLY);
+        CVarDef.Create("admin.event_log.allow_none_category", true, CVar.SERVERONLY);
 }
